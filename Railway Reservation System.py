@@ -2,6 +2,7 @@ import mysql.connector as sql
 import time as t 
 import random as R
 import pandas as pd
+import csv as c 
 
 mysql = sql.connect(host = "localhost",user="root",password = "",database="Railway")
 
@@ -129,9 +130,8 @@ def reservation():
                 join = "select * from train,passengers where train.train_no = passengers.trainno"
                 mycursor.execute(join)
                 for y in mycursor:
-                    ew = [y]
-                    a = pd.DataFrame(ew)
-                    print("Your PNR no. :",pnr)
+                    column = ["Train Name","Train No.","From","To","Passenger Name","Age","Train no","No of seat","Class","Amount","Status","PNR"]
+                    a = pd.DataFrame([y],columns=column,index=[""])                    
                     print("TICKET")
                 mysql.commit()
                 print("insertion completed")
@@ -273,5 +273,3 @@ if log == "Admin":
         work()
 elif log == "user":
     users()
-
-
