@@ -94,12 +94,12 @@ def reservation():
                 trainno=input("enter train number = ")
                 l1.append(trainno)
                 l1.append(np)
-                print("select a class you would like to travel in")
+                print("Select a class you would like to travel in")
                 print("1.AC FIRST CLASS")
                 print("2.AC SECOND CLASS")
                 print("3.AC THIRD CLASS")
                 print("4.SLEEPER CLASS")
-                cp=int(input("Enter your choice:"))
+                cp=int(input("Enter your choice : "))
                 if cp == 1:
                                 amount = np*1000
                                 cls = 'AC 1'
@@ -127,12 +127,14 @@ def reservation():
                 mycursor.execute(cr)
                 t.sleep(1)
                 mycursor.execute(sql,train1)
-                join = "select * from train,passengers where train.train_no = passengers.trainno"
-                mycursor.execute(join)
+                join =  "select * from passengers join train on passengers.trainno = train.train_no where pname = %s"
+                joiner = (pname,)
+                mycursor.execute(join,joiner)
                 for y in mycursor:
-                    column = ["Train Name","Train No.","From","To","Passenger Name","Age","Train no","No of seat","Class","Amount","Status","PNR"]
-                    a = pd.DataFrame([y],columns=column,index=[""])                    
-                    print("TICKET")
+                    col = ["Name of Passenger","Age","Train no","No of Berth","Class","Amount","Status","PNR","Train Name","Train no","From","To"]
+                    a = {col[0]:y[0],col[1]:y[1],col[2]:y[2],col[4]:y[4],col[5]:y[5],col[6]:y[6],col[7]:y[7],col[8]:y[8],col[9]:y[9],col[10]:y[10],col[11]:y[11]}
+                    run = pd.DataFrame(a,index=[""])
+                    print(run)
                 mysql.commit()
                 print("insertion completed")
                 print("Go back to menu OR Skip")
@@ -162,8 +164,9 @@ def cancel():
 
                 print("==================================================================="* 3)
 def displayPNR():
+                print("Welcome ")
                 print("PNR STATUS window")
-                pnr=input("enter PNR NUMBER")
+                pnr=input("enter PNR NUMBER : ")
                 pn=(pnr,) 
                 sql= "select * from passengers where pnrno=%s "
                 mycursor.execute(sql,pn) 
@@ -175,7 +178,7 @@ def displayPNR():
                                 print(y)   
                 #print("Deletion completed")
                 print("Go back to menu OR Skip ")
-                opt = input("Y for menu or N to ")
+                opt = input("Y for menu or N to Skip: ")
                 if opt == "Y":
                     print("\n")
                     railresmenu()
@@ -248,7 +251,7 @@ def sign_up():
 
 def users():
             print("Please Sign In \n If doesn't have account go to different portal:")
-            OPTION = input("Want to \n1. Sign In \n2. Sign UP : ")
+            OPTION = input("Want to \n1. Sign In \n2. Sign Up : ")
             if OPTION == "1":
                 sign_in()
             elif OPTION == "2":
