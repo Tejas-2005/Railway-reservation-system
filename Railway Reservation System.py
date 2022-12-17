@@ -2,7 +2,6 @@ import mysql.connector as sql
 import time as t 
 import random as R
 import pandas as pd
-import csv as c 
 
 mysql = sql.connect(host = "localhost",user="root",password = "",database="Railway")
 
@@ -88,8 +87,7 @@ def reservation():
                 l1.append(age)
                 a = "select * from train"
                 mycursor.execute(a)
-                r = mycursor.fetchall()
-                for i in r:
+                for i in mycursor:
                     print(i)
                 trainno=input("enter train number = ")
                 l1.append(trainno)
@@ -206,7 +204,7 @@ def railresmenu():
     t.sleep(1.5)
 
 
-def sign_in():
+def sign_up():
                 Name = input("Enter Your Name : ")
                 Age = input("Enter Your Age : ")
                 Sex = input("Enter Your Sex M/F : ")
@@ -224,38 +222,34 @@ def sign_in():
                 pswad = input("")
                 det.append(pswad)
                 deta = (det)
-                w = "create table if not exists user(Name varchar(183),Age varchar(183),Sex varchar(6),Mob varchar(183),Password varchar(183),unique(Mob))"
+                w = "create table if not exists user(Name varchar(183),Age varchar(183),Sex varchar(10),Mob varchar(183),Password varchar(183),unique(Mob))"
                 w1 = "insert into user(Name,Age,Mob,Sex,Password) values(%s,%s,%s,%s,%s)"
                 mycursor.execute(w)
                 mycursor.execute(w1,deta)
                 mysql.commit()
                 railresmenu()
 
-def sign_up():
-                x1 = "select Password from user"
-                mycursor.execute(x1)
-                a1 = mycursor.fetchall()
-                for i in a1:
-                    print()
+def sign_in():
+                Q1 = input("Enter your Name      : ")
                 Q  = input("Enter your password : ")
-                Q2 = (Q,)
-                x2 = "select * from user where Password = %s"
+                Q2 = (Q1,)
+                x2 = "select * from user where Name = %s and Password = %s"
                 mycursor.execute(x2,Q2)
                 for i in mycursor:
                         print("Name :",i[0])
                         print("Age :",i[1])
                         print("Sex :",i[2])
                         print("Mobile no :",i[3])
-                        print("")
+                        print("\n"*2)
                         railresmenu()
 
 def users():
             print("Please Sign In \n If doesn't have account go to different portal:")
-            OPTION = input("Want to \n1. Sign In \n2. Sign Up : ")
+            OPTION = input("Want to \n1. Sign Up \n2. Sign In : ")
             if OPTION == "1":
-                sign_in()
-            elif OPTION == "2":
                 sign_up()
+            elif OPTION == "2":
+                sign_in()
 
 
 
@@ -266,7 +260,7 @@ log = input("""Want to Sign as :
                 2.User
                 : """)
 
-if log == "Admin":
+if log == "1":
     print("Please enter password,")
     pswd = int(input(": "))
     if pswd == 130805:
@@ -274,5 +268,5 @@ if log == "Admin":
         print("Welcome to IRCTC !!!!!! in Admin mode")
         t.sleep(2)
         work()
-elif log == "user":
+elif log == "2":
     users()
