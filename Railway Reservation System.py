@@ -1,5 +1,5 @@
 import mysql.connector as sql 
-import time as t 
+import time as t  
 import random as R
 import pandas as pd
 
@@ -81,15 +81,15 @@ def work():
 def reservation():
                 l1=[]
                 np=int(input("Enter number of passenger : "))
-                pname=input("enter passenger name = ")
+                pname=input("enter passenger name : ")
                 l1.append(pname)
-                age=input("enter age of passenger = ")
+                age=input("enter age of passenger : ")
                 l1.append(age)
                 a = "select * from train"
                 mycursor.execute(a)
                 for i in mycursor:
                     print(i)
-                trainno=input("enter train number = ")
+                trainno=input("enter train number : ")
                 l1.append(trainno)
                 l1.append(np)
                 print("Select a class you would like to travel in")
@@ -146,9 +146,9 @@ def reservation():
                 print("===================================================================" * 3)
 def cancel():
                 print("Ticket cancel window")
-                pnr=input("enter PNR for cancellation of Ticket")
+                pnr=input("Enter PNR for cancellation of Ticket : ")
                 pn=(pnr,) 
-                sql="update passengers set status='deleted' where pnrno=%s"
+                sql="update passengers set status='deleted' where pnrno = %s"
                 mycursor.execute(sql,pn)
                 mysql.commit()
                 print("Deletion completed")
@@ -166,14 +166,14 @@ def displayPNR():
                 print("PNR STATUS window")
                 pnr=input("enter PNR NUMBER : ")
                 pn=(pnr,) 
-                sql= "select * from passengers where pnrno=%s "
+                sql= "select * from passengers where pnrno = %s"
                 mycursor.execute(sql,pn) 
                 #mydb.commit()
                 print("PNR STATUS are as follows : ")
                 for x in mycursor:
-                                x1 = [x]
-                                y = pd.DataFrame(x1,columns=["Name","Age","Train no.","No of passenger","Class","Amount","Status","PNR"],index=[""])
-                                print(y)   
+                            x1 = [x]
+                            y = pd.DataFrame(x1,columns=["Name","Age","Train no.","No of passenger","Class","Amount","Status","PNR"],index=[""])
+                            print(y)   
                 #print("Deletion completed")
                 print("Go back to menu OR Skip ")
                 opt = input("Y for menu or N to Skip: ")
@@ -231,15 +231,15 @@ def sign_up():
 
 def sign_in():
                 Q1 = input("Enter your Name      : ")
-                Q  = input("Enter your password : ")
-                Q2 = (Q1,)
+                Q  = input("Enter your password  : ")
+                Q2 = (Q1,Q)
                 x2 = "select * from user where Name = %s and Password = %s"
                 mycursor.execute(x2,Q2)
                 for i in mycursor:
-                        print("Name :",i[0])
-                        print("Age :",i[1])
-                        print("Sex :",i[2])
-                        print("Mobile no :",i[3])
+                        print("Name        :","",i[0])
+                        print("Age         :","",i[1])
+                        print("Sex         :","",i[2])
+                        print("Mobile no   :","",i[3])
                         print("\n"*2)
                         railresmenu()
 
